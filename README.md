@@ -1,6 +1,6 @@
 # siter.py
 The script siter.py finds binding sites for potassium ions in protein pdb structures by aligning a template of solvated K+ to the eights of protein atoms and calculates RMSD for these alignments. It is a pre-alpha version, so performance is very poor, probably you will also find some bugs. To run the script you will need the following python3 libraries that can be easily installed with pip:
-+ numpy ('''pip install numpy''')
++ numpy (**pip install numpy**)
 + scipy (pip install scipy)
 + Biopython (pip install biopython)
 + rmsd (pip install rmsd)
