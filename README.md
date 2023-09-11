@@ -26,6 +26,6 @@ After the calculations are completed go to the folder where you put your protein
 
 Now you can visualize pdb files in any molecular viewer like PyMol or UCSF Chimera. An example of the visualization is presented at **Fig. 1**. 
 Note, that in some cases, when no suitable sites were found, you will not see <PDB_ID>_alignment_X.pdb, <PDB_ID>_site_X.pdb, <PDB_ID>_RES.txt and <PDB_ID>_RMSD.log files. 
-![Figure 1. An example of visualized sites (<PDB_ID>_site_X.pdb) and alignments (<PDB_ID>_alignment_X.pdb) in 1K4C selectivity filter by PyMol. The alignments are represented by big purple spheres and red crosses, corresponding to K+ ions and water oxygens, respectively. Small red spheres represent protein oxygens that form the sites (in the case of nitrogen atoms the spheres will be deep blue). ](https://github.com/syleck/siter/blob/main/example.png)
+![**Figure 1. An example of visualized sites** (<PDB_ID>_site_X.pdb) **and alignments** (<PDB_ID>_alignment_X.pdb) **in 1K4C selectivity filter by PyMol**. The alignments are represented by big ***purple spheres*** and ***red crosses***, corresponding to K+ ions and water oxygens, respectively. ***Small red spheres*** represent protein oxygens that form the sites (in the case of nitrogen atoms the spheres will be deep blue). ](https://github.com/syleck/siter/blob/main/example.png)
 
 
