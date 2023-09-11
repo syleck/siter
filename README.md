@@ -15,7 +15,7 @@ To run **siter.py** you should make the following steps:
   _`python siter.py <name_of_directories_with_PDBs> KOW.pdb <number_of_threads>`
   where <name_of_directories_with_PDBs> is the name of a folder where you put your pdb files with protein coordinate and <number_of_threads> is a number of threads of your CPU you want to use. 
 
-After the calculations are completed go to the folder where you put your protein pdb files earlier. You will see that pdb files disappeared but instead of them, folders with the names of original pdbs were created. For example, your original dataset contained two pdb structures 1K4C.pdb and 2ITC.pdb, after the calculations you will see the corresponding folders named 1K4C and 2ITC. Go to any of these folders. You will see the following files:
+After the calculations are completed go to the folder where you put your protein pdb files earlier. You will see that pdb files disappeared but instead of them, folders with the names of original pdbs were created. For example, your original dataset contained two pdb structures 1K4C.pdb and 2ITC.pdb, after the calculations you will see the corresponding folders named 1K4C and 2ITC. Go to any of these folders. You will see the following files <br />:
 * <PDB_ID>.pdb — the original pdb file.
 * <PDB_ID>.ref — file that contains oxygens and nitrogens from original pdb that were used for scanning.
 * <PDB_ID>_COMBS.txt — combinations of atoms that were used for calculations.
