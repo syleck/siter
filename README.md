@@ -11,7 +11,7 @@ You will also need a pdb file that contains coordinates of potassium ion and wat
 To run **siter.py** you should make the following steps:
 1. Put **siter.py** and **KOW.pdb** in the same directory.
 1. Put your protein pdb files to a separate directory which must be located in a folder where you put **siter.py** and **KOW.pdb earlier**.
-1. Type the following command in your command line. Be sure that you use python3 by default, otherwise use python3 instead of python in the following command:
+1. Type the following command in your command line. Be sure that you use python3 by default, otherwise use python3 instead of python in the following command:\
    `python siter.py <name_of_directories_with_PDBs> KOW.pdb <number_of_threads>`
   where <name_of_directories_with_PDBs> is the name of a folder where you put your pdb files with protein coordinate and <number_of_threads> is a number of threads of your CPU you want to use. 
 
