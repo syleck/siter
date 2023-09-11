@@ -24,5 +24,6 @@ After the calculations are completed go to the folder where you put your protein
 * **<PDB_ID>_RES.txt** — the combinations of protein atoms that form the site are written in square brackets. The RMSD value for the alignment to this site is written to the right of them.
 * **<PDB_ID>_RMSD.log** — this file contains RMSD values of the template alignment to the corresponding site. 
 
-Now you can visualize pdb files in any molecular viewer like PyMol or UCSF Chimera.
-Note, that in some cases, when no suitable sites were found, you will not see **<PDB_ID>_alignment_X.pdb**, **<PDB_ID>_site_X.pdb**, **<PDB_ID>_RES.txt** and **<PDB_ID>_RMSD.log** files. 
+Now you can visualize pdb files in any molecular viewer like PyMol or UCSF Chimera. An example of the visualization is presented at Fig. 1. 
+Note, that in some cases, when no suitable sites were found, you will not see <PDB_ID>_alignment_X.pdb, <PDB_ID>_site_X.pdb, <PDB_ID>_RES.txt and <PDB_ID>_RMSD.log files. 
+![](/siter/example.png)
