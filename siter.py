@@ -14,14 +14,12 @@ from rmsd import brute_permutation
 from subprocess import check_output, PIPE, STDOUT
 from multiprocessing import Pool,TimeoutError
 
-
 class AtomSelect(Select):
     def accept_atom(self, atom):
-        if (atom.get_name() == "ND1" or atom.get_name()=="ND2" or atom.get_name() == "NE1" or atom.get_name() == "NE2" or atom.get_name()=="NH1" or atom.get_name() == "NH2" or atom.get_name() == "NH31" or atom.get_name() == "O" or atom.get_name()=="OG" or atom.get_name() == "OG1" or atom.get_name() == "OE1" or atom.get_name() == "OE2" or atom.get_name()=="OD1" or atom.get_name() == "OD2" or atom.get_name() == "OH") and (atom.altloc == "A" or atom.altloc ==' '):
-            return (True)
+        if ((atom.get_parent().get_resname() in ["HIS", "LYS"] and atom.get_name() in ["ND1", "NE2", "NZ"]) or (atom.get_name() in ["O", "OG", "OG1", "OE1", "OE2", "OD1", "OD2", "OH"])) and (atom.altloc == "A" or atom.altloc ==' '):
+            return True
         else:
             return (False)
-            print ('KOK')
 
 def check (B): 
     Z=np.sort(np.around(np.nanmean(distance_matrix(B, B), axis=0), 1))
@@ -44,7 +42,6 @@ def RMS (A, B):
     return (RMSD, A, B)
 
 wrdir,WAT,nc=sys.argv[1:4]
-
 
 p = PDBParser()
 io = PDBIO()
@@ -84,10 +81,6 @@ print (wat_dist_matrix)
 print (E[-1]-E[0])
 LNG=E.shape[0]+1
 
-"""Finding the maximum and minimum values
-in the ion distance matrix. We add a certain number to the maximum,
-subtract from the minimum so as not to miss the atoms that can form
-binding site"""
 mx=np.nanmax(E)+2.0
 mn=np.nanmin(E)-1.0
 
@@ -98,6 +91,7 @@ def aligner(mol):
     print (mol[2:-4])
     io = PDBIO()
     structure=p.get_structure(mol[2:-4], mol[2:])
+    #structure=structure[0]
     io.set_structure(structure)
     io.save(mol[2:-4]+'.ref', AtomSelect(), preserve_atom_numbering = True)
     prot_coordinates=np.array([])
@@ -106,8 +100,10 @@ def aligner(mol):
     for chain in model:
         for residue in chain:
             tags = residue.get_full_id()
-            for atom in residue:
-                if (atom.get_name() == "ND1" or atom.get_name()=="ND2" or atom.get_name() == "NE1" or atom.get_name() == "NE2" or atom.get_name()=="NH1" or atom.get_name() == "NH2" or atom.get_name() == "NH31" or atom.get_name() == "O" or atom.get_name()=="OG" or atom.get_name() == "OG1" or atom.get_name() == "OE1" or atom.get_name() == "OE2" or atom.get_name()=="OD1" or atom.get_name() == "OD2" or atom.get_name() == "OH") and (atom.altloc == "A" or atom.altloc==" ") and tags[3][0] == " ":
+            if tags[3][0]==" ":
+                for atom in residue:
+                    if ((atom.get_parent().get_resname() in ["HIS", "LYS"] and atom.get_name() in ["ND1", "NE2", "NZ"]) or (atom.get_name() in ["O", "OG", "OG1", "OE1", "OE2", "OD1", "OD2", "OH"])) and (atom.altloc == "A" or atom.altloc ==' '):
+                        print (atom.get_coord)
                         prot_coordinates=np.append(prot_coordinates, atom.get_coord())
     prot_coordinates=prot_coordinates.reshape(int(prot_coordinates.shape[0]/3), 3)
     print (prot_coordinates)
@@ -115,10 +111,13 @@ def aligner(mol):
     for chain in model:
         for residue in chain:
             tags = residue.get_full_id()
-            for atom in residue:
-                if tags[3][0] == " ":
+            if tags[3][0]==" ":
+                for atom in residue:
                     print (atom.get_coord)
+                    print ("Kostik is a gay")
                     ALLat=np.append(ALLat, atom.get_coord())
+                
+
     ALLat=ALLat.reshape(int(ALLat.shape[0]/3), 3)
     print (ALLat)
     prot_dist_matrix=distance_matrix(prot_coordinates, prot_coordinates)
@@ -133,7 +132,7 @@ def aligner(mol):
         VALS=np.sort(VALS)
         VARIANTS=np.array (list(combinations(VALS, water_coordinates.shape[0]-1)))
         info.write ("The number of variants for atom "+str(key+1)+" is " +str(len(VARIANTS))+'\n')
-        print ("The number of variants for atom "+str(key+1)+" is " +str(len(VARIANTS)))
+        print ("The number of variants fo atom "+str(key+1)+" is " +str(len(VARIANTS)))
         for variant in VARIANTS:
             var=np.concatenate(([key], variant), axis=0)
             var=np.sort(var)
@@ -156,7 +155,8 @@ def aligner(mol):
     for line in f.readlines():
         line=line.strip()
         line=line.split(' ')
-        if line[0]!="TER" and line[0] != "END":
+        if ("TER" not in line[0]) and ("END" not in line[0]) and ("HETATM" not in line[0]):
+            print (line[0])
             ATOMS.append(line)
     x=1
     RES=[]
@@ -176,9 +176,16 @@ def aligner(mol):
                 for at in ALLat:
                     dist=distance.euclidean (K_new, at)
                     if dist<2.1:
+                        print ('The distance is too small: '+str(dist))
                         cond=False
                         print (cond)
                 if cond==True:
+                    print (" ")
+                    print (cond)
+                    print (' ')
+                    print (' ')
+                    print (comb)
+                    print ("ШТА?")
                     print (RMSD)
                     b=np.around(np.array([RMSD]), 3)
                     print (comb)
@@ -186,9 +193,14 @@ def aligner(mol):
                     print (k)
                     RES.append(k)
     if len (RES)>0:
+        print (RES)
+        print (' ')
         RES=np.array(RES)
         RES=RES[RES[:, 8].argsort()]
+        print (" ")
         SITES=[]
+        print (RES)
+        print (" ")
         for i in range(RES.shape[0]):
             i=0
             alt=np.zeros([RES.shape[0]])
@@ -210,7 +222,8 @@ def aligner(mol):
                 A2=Y2-X2
                 D2=Yn- A2
                 KY=np.array([np.nanmean(D2, axis=0)])
-                dist=distance.euclidean (KX, KY)
+                print (distance.euclidean (KX.flatten(), KY.flatten()))
+                dist=distance.euclidean (KX.flatten(), KY.flatten())
                 alt[j]+=dist
             print (' ')
             print (alt)
@@ -226,6 +239,7 @@ def aligner(mol):
                 break
 
         SITES=np.array(SITES, dtype=int)
+        print (ATOMS)
         print (SITES)
         num=1
         f5=open(mol[2:-4]+"_RMSDs.log", 'w')
@@ -247,6 +261,7 @@ def aligner(mol):
             f6.write(str(site)+' '+str(np.around(RMSD, 3))+'\n')
             print (str(site)+' '+str(np.around(RMSD, 3))+'\n')
             for atom in site:
+                print (atom, site)
                 print (ATOMS[atom])
                 f2.write((' '.join(ATOMS[atom])+'\n'))
             f2.close()
@@ -280,4 +295,3 @@ if __name__ == '__main__':
         pool.map(aligner, MOLS)
         pool.close()
         pool.join()
-print ("Calculations are finished")
