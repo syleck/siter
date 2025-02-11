@@ -1,4 +1,4 @@
-#Description
+# Description
 This script is related to the article "Square Antiprismatic Chelation Is a Key Determinant for Potassium Ion Selectivity" (https://doi.org/10.1016/j.ijbiomac.2025.140690). The algorithm, its impelemntation and datasets used are described in the related papper in Methods section.
 # How to run **siter.py**
 The script siter.py finds binding sites for potassium ions in protein pdb structures by aligning a template of solvated K+ to the eights of protein atoms and calculates RMSD for these alignments. It is a pre-alpha version, so performance is very poor, probably you will also find some bugs. To run the script you will need the following python3 libraries that can be easily installed with pip:
